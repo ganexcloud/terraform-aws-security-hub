@@ -1,4 +1,6 @@
-resource "aws_securityhub_account" "this" {}
+resource "aws_securityhub_account" "this" {
+  enable_default_standards = var.enable_default_standards
+}
 
 resource "aws_securityhub_standards_subscription" "this" {
   for_each      = local.enabled_standards_arns

@@ -1,3 +1,9 @@
+variable "enable_default_standards" {
+  description = "Whether to enable the security standards that Security Hub has designated as automatically enabled including: `AWS Foundational Security Best Practices v1.0.0` and `CIS AWS Foundations Benchmark v1.2.0`"
+  type        = bool
+  default     = false
+}
+
 variable "enable_notifications" {
   description = "Enable send notifications to SNS Topic"
   type        = bool
