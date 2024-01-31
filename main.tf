@@ -1,5 +1,10 @@
 resource "aws_securityhub_account" "this" {
-  #enable_default_standards = var.enable_default_standards
+  enable_default_standards = var.enable_default_standards
+}
+
+resource "aws_securityhub_finding_aggregator" "this" {
+  linking_mode      = var.linking_mode
+  specified_regions = var.specified_regions
 }
 
 resource "aws_securityhub_standards_subscription" "this" {

@@ -35,6 +35,18 @@ variable "imported_finding_notification_arn" {
   type        = string
 }
 
+variable "linking_mode" {
+  description = "Indicates whether to aggregate findings from all of the available Regions or from a specified list. The options are ALL_REGIONS, ALL_REGIONS_EXCEPT_SPECIFIED or SPECIFIED_REGIONS. When ALL_REGIONS or ALL_REGIONS_EXCEPT_SPECIFIED are used, Security Hub will automatically aggregate findings from new Regions as Security Hub supports them and you opt into them."
+  type        = string
+  default     = "ALL_REGIONS"
+}
+
+variable "specified_regions" {
+  description = "List of regions to include or exclude (required if linking_mode is set to ALL_REGIONS_EXCEPT_SPECIFIED or SPECIFIED_REGIONS)"
+  type        = list(string)
+  default     = null
+}
+
 variable "cloudwatch_event_rule_pattern" {
   description = <<-DOC
   The detail-type pattern used to match events that will be sent to SNS. 
