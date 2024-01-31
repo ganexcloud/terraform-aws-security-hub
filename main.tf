@@ -3,14 +3,14 @@ resource "aws_securityhub_account" "this" {
 }
 
 resource "aws_securityhub_finding_aggregator" "this" {
-  linking_mode      = var.linking_mode
-  specified_regions = var.specified_regions
+  count             = var.finding_aggregator_enabled ? 1 : 0
+  linking_mode      = var.finding_aggregator_linking_mode
+  specified_regions = var.finding_aggregator_specified_regions
 }
 
 resource "aws_securityhub_standards_subscription" "this" {
-  for_each      = local.enabled_standards_arns
-  depends_on    = [aws_securityhub_account.this]
-  standards_arn = each.key
+  for_each      = toset(var.enabled_standards_arn)
+  standards_arn = each.value
 }
 
 resource "aws_cloudwatch_event_rule" "imported" {
@@ -41,4 +41,9 @@ resource "aws_cloudwatch_event_target" "custom_action" {
   rule      = aws_cloudwatch_event_rule.custom_action[0].name
   target_id = "SendToSNS"
   arn       = var.custom_action_notification_arn
+}
+
+resource "aws_securityhub_product_subscription" "this" {
+  for_each    = toset(var.enabled_products_arn)
+  product_arn = each.value
 }

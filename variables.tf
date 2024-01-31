@@ -10,16 +10,21 @@ variable "enable_notifications" {
   default     = false
 }
 
-variable "enabled_standards" {
+variable "enabled_standards_arn" {
   description = <<-DOC
-  A list of standards/rulesets to enable
-  See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_standards_subscription#argument-reference
-  The possible values are:
-    - standards/aws-foundational-security-best-practices/v/1.0.0
-    - ruleset/cis-aws-foundations-benchmark/v/1.2.0
-    - standards/pci-dss/v/3.2.1
+    A list of standards/rulesets to enable
+    See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_standards_subscription#argument-reference
   DOC
-  type        = list(any)
+  type        = list(string)
+  default     = []
+}
+
+variable "enabled_products_arn" {
+  description = <<-DOC
+    A list of subscription products arn to enable
+    See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_product_subscription
+  DOC
+  type        = list(string)
   default     = []
 }
 
@@ -35,13 +40,19 @@ variable "imported_finding_notification_arn" {
   type        = string
 }
 
-variable "linking_mode" {
+variable "finding_aggregator_enabled" {
+  description = "Enable finding aggretor"
+  type        = bool
+  default     = false
+}
+
+variable "finding_aggregator_linking_mode" {
   description = "Indicates whether to aggregate findings from all of the available Regions or from a specified list. The options are ALL_REGIONS, ALL_REGIONS_EXCEPT_SPECIFIED or SPECIFIED_REGIONS. When ALL_REGIONS or ALL_REGIONS_EXCEPT_SPECIFIED are used, Security Hub will automatically aggregate findings from new Regions as Security Hub supports them and you opt into them."
   type        = string
   default     = "ALL_REGIONS"
 }
 
-variable "specified_regions" {
+variable "finding_aggregator_specified_regions" {
   description = "List of regions to include or exclude (required if linking_mode is set to ALL_REGIONS_EXCEPT_SPECIFIED or SPECIFIED_REGIONS)"
   type        = list(string)
   default     = null
