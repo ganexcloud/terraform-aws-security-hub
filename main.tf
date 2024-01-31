@@ -11,6 +11,7 @@ resource "aws_securityhub_finding_aggregator" "this" {
 resource "aws_securityhub_standards_subscription" "this" {
   for_each      = toset(var.enabled_standards_arn)
   standards_arn = each.value
+  depends_on    = [aws_securityhub_account.this]
 }
 
 resource "aws_cloudwatch_event_rule" "imported" {
@@ -46,4 +47,5 @@ resource "aws_cloudwatch_event_target" "custom_action" {
 resource "aws_securityhub_product_subscription" "this" {
   for_each    = toset(var.enabled_products_arn)
   product_arn = each.value
+  depends_on  = [aws_securityhub_account.this]
 }
