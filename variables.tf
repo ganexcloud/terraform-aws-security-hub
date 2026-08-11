@@ -4,6 +4,8 @@ variable "enable_default_standards" {
   default     = true
 }
 
+# Kept for backwards compatibility with the original public interface.
+# tflint-ignore: terraform_unused_declarations
 variable "enable_notifications" {
   description = "Enable send notifications to SNS Topic"
   type        = bool
@@ -60,7 +62,7 @@ variable "finding_aggregator_specified_regions" {
 
 variable "cloudwatch_event_rule_pattern" {
   description = <<-DOC
-  The detail-type pattern used to match events that will be sent to SNS. 
+  The detail-type pattern used to match events that will be sent to SNS.
   For more information, see:
   https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/CloudWatchEventsandEventPatterns.html
   DOC
